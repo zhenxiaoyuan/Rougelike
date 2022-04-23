@@ -16,6 +16,12 @@ make game
 ./play
 ```
 
+## TODO
+- [ ] The difference between const and constexpr  
+- [ ] The usage of namespace  
+- [ ] Let the renderer present
+- [ ] Change makefile to cmake
+
 
 
 
