@@ -1,3 +1,9 @@
+# mac output
 play
+# windows output
+windows-output
 
 .vscode
+.vs
+
+*vcxproj*
