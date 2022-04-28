@@ -1,14 +1,14 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "core/app.hpp"
+#include "core/game.hpp"
 
 int main(int argc, char **argv)
 {
     try
     {
-        App app;
-        app.run();
+        Game game;
+        game.run();
     }
     catch (const std::exception &e)
     {
