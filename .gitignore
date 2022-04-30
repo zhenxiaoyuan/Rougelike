@@ -3,7 +3,10 @@ play
 # windows output
 windows-output
 
+# vs code configuration
 .vscode
+# vs configuration
 .vs
-
 *vcxproj*
+# mac store file
+*.DS_Store
