@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "core/game.hpp"
+#include "core/Game.hpp"
 
 int main(int argc, char **argv)
 {

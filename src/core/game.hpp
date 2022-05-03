@@ -5,6 +5,9 @@
 
 #include <entt/entt.hpp>
 
+#include "../systems/RenderSystem.hpp"
+#include "Window.hpp"
+
 class Game
 {
 public:
@@ -20,19 +23,18 @@ private:
     void render();
     void clean();
 
-    SDL_Window      *m_window;
-    SDL_Renderer    *m_renderer;
+    Window           m_window;
 
     SDL_Texture     *m_texture;
     SDL_Surface     *m_surface;
     SDL_Rect         m_srcRect;
     SDL_Rect         m_destRect;
 
-    const static int window_flags   = SDL_WINDOW_SHOWN;
-    const static int renderer_flags = SDL_RENDERER_ACCELERATED;
     const static int image_flags    = IMG_INIT_PNG;
 
     bool game_is_running;
 
     entt::registry m_registry;
+
+    RenderSystem m_render_system;
 };
