@@ -1,32 +1,26 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-
-#include "../core/Window.hpp"
+#include <SDL2/SDL_image.h>
 
 class Sprite
 {
 public:
-    Sprite(int width, int height);
-    Sprite();
+    Sprite(const char *file, SDL_Renderer *renderer, int width, int height);
 
-    Sprite(Sprite&&);
-    Sprite& operator=(Sprite&&);
+    ~Sprite();
 
-    ~Sprite() = default;
+    int width();
+    int height();
 
-    SDL_Texture     *m_pTexture;
-
-    SDL_Rect         m_srcRect;
-    SDL_Rect         m_destRect;
+    SDL_Texture *texture();
 
 private:
-    SDL_Renderer     *m_pRenderer;
-    SDL_Surface      *m_pSurface;
+    SDL_Texture *m_pTexture;
 
-    Window          m_window;
+    int m_spriteWidth;
+    int m_spriteHeight;
 
-    char            *m_pFile;
-    int              m_width;
-    int              m_height;
+    int m_textureWidth;
+    int m_textureHeight;
 };

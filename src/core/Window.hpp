@@ -8,18 +8,19 @@ public:
     Window();
     ~Window();
 
-    Window(Window &&);
-    Window(Window &);
+    void create(
+        const char *title,
+        int pos_x,
+        int pos_y,
+        int width,
+        int height,
+        Uint32 window_flags,
+        Uint32 renderer_flags);
 
-    Window& operator=(Window&&);
+    SDL_Renderer *renderer();
 
-    static void create();
-    static SDL_Renderer *renderer();
-
-    static SDL_Renderer *m_pRenderer;
-    static SDL_Window   *m_pWindow;
 private:
+    SDL_Renderer *m_pRenderer;
+    SDL_Window *m_pWindow;
 
-    const static int window_flags   = SDL_WINDOW_SHOWN;
-    const static int renderer_flags = SDL_RENDERER_ACCELERATED;
 };

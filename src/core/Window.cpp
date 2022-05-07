@@ -1,5 +1,4 @@
 #include "Window.hpp"
-#include "../utils/Constants.hpp"
 
 #include <iostream>
 
@@ -10,18 +9,25 @@ Window::Window()
 
 Window::~Window()
 {
-    //SDL_DestroyRenderer(m_pRenderer);
-    //SDL_DestroyWindow(m_pWindow);
+    SDL_DestroyRenderer(m_pRenderer);
+    SDL_DestroyWindow(m_pWindow);
 }
 
-void Window::create()
+void Window::create(
+    const char *title, 
+    int pos_x, 
+    int pos_y, 
+    int width, 
+    int height, 
+    Uint32 window_flags, 
+    Uint32 renderer_flags)
 {
     m_pWindow = SDL_CreateWindow(
-        "Rougelike",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
+        title,
+        pos_x,
+        pos_y,
+        width,
+        height,
         window_flags);
     if (!m_pWindow)
     {
@@ -39,28 +45,6 @@ void Window::create()
         exit(1);
     }
 }
-
-//Window::Window(Window&& win)
-//{
-//    this->m_pRenderer = win.m_pRenderer;
-//    this->m_pWindow = win.m_pWindow;
-//}
-//
-//Window::Window(Window& win)
-//{
-//    this->m_pRenderer = win.m_pRenderer;
-//    this->m_pWindow = win.m_pWindow;
-//}
-//
-//Window& Window::operator=(Window&& win)
-//{
-//    if (this != &win)
-//    {
-//        this->m_pRenderer = win.m_pRenderer;
-//        this->m_pWindow = win.m_pWindow;
-//    }
-//    return *this;
-//}
 
 SDL_Renderer *Window::renderer()
 {

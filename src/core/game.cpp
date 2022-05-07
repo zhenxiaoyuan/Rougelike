@@ -1,15 +1,28 @@
 #include <iostream>
 
 #include "Game.hpp"
+
 #include "../utils/Constants.hpp"
 
 #include "../components/Sprite.hpp"
 #include "../components/Position.hpp"
 
-#include "../managers/TextureManager.hpp"
-
 Game::Game()
-    : m_window {}
+{
+    sdl_init();
+
+    const auto player = m_registry.create();
+
+    m_registry.emplace<Sprite>(player, "assets/player/idle.png", m_window.renderer(), PLAYER_WIDTH, PLAYER_HEIGHT);
+    m_registry.emplace<Position>(player, 100, 100);
+}
+
+Game::~Game()
+{
+    SDL_Quit();
+}
+
+void Game::sdl_init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -17,25 +30,20 @@ Game::Game()
         exit(1);
     }
 
-    m_window.create();
+    m_window.create(
+        "Rougelike",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        SDL_WINDOW_SHOWN,
+        SDL_RENDERER_ACCELERATED);
 
-    if (IMG_Init(image_flags) == 0)
+    if (IMG_Init(IMG_INIT_PNG) == 0)
     {
         std::cout << "Failed to init image: " << IMG_GetError() << std::endl;
         exit(1);
     }
-
-    const auto player = m_registry.create();
-
-    m_registry.emplace<Sprite>(player, PLAYER_WIDTH, PLAYER_HEIGHT);
-    m_registry.emplace<Position>(player, 100, 100);
-
-
-}
-
-Game::~Game()
-{
-    SDL_Quit();
 }
 
 void Game::run()
@@ -73,7 +81,6 @@ void Game::events()
 
 void Game::update()
 {
-
 }
 
 void Game::render()

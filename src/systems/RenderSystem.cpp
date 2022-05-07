@@ -1,24 +1,23 @@
 #include "RenderSystem.hpp"
 
+#include <iostream>
+
 #include "../components/Sprite.hpp"
 #include "../components/Position.hpp"
 
-#include "../utils/Constants.hpp"
-
-void RenderSystem::render(SDL_Renderer *renderer, entt::registry& registry)
+void RenderSystem::render(SDL_Renderer *renderer, entt::registry &registry)
 {
     auto view = registry.view<Sprite, Position>();
-    view.each([&](const auto& sprite, const auto& pos){
+    view.each([&](
+                  auto &sprite,
+                  auto &position)
+              {
         Uint32 frame = SDL_GetTicks() / 200;
         Uint32 sprite_offset_x = frame % 12;
-//
-        SDL_Rect tmpSrcRect {static_cast<int>(PLAYER_WIDTH * sprite_offset_x), 0, PLAYER_WIDTH, PLAYER_HEIGHT};
-        SDL_Rect tmpDestRect {static_cast<int>(pos.m_x), static_cast<int>(pos.m_y), PLAYER_WIDTH, PLAYER_HEIGHT};
 
-        tmpSrcRect.x = PLAYER_WIDTH * sprite_offset_x;
-        tmpDestRect.x = pos.m_x;
-        tmpDestRect.y = pos.m_y;
+        SDL_Rect src_rect = { static_cast<int>(sprite.width() * sprite_offset_x), 0, sprite.width(), sprite.height() };
+        SDL_Rect dst_rect = { static_cast<int>(position.x()), static_cast<int>(position.y()), sprite.width(), sprite.height() };
 
-        SDL_RenderCopy(renderer, sprite.m_pTexture, &tmpSrcRect, &tmpDestRect); 
-    });
+        SDL_RenderCopy(renderer, sprite.texture(), &src_rect, &dst_rect); });
+
 }
