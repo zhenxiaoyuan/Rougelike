@@ -11,10 +11,7 @@ Game::Game()
 {
     sdl_init();
 
-    const auto player = m_registry.create();
-
-    m_registry.emplace<Sprite>(player, "assets/player/idle.png", m_window.renderer(), PLAYER_WIDTH, PLAYER_HEIGHT);
-    m_registry.emplace<Position>(player, 100, 100);
+    entt_init();
 }
 
 Game::~Game()
@@ -49,14 +46,18 @@ void Game::sdl_init()
 void Game::run()
 {
     game_is_running = true;
+    double time;
 
     while (game_is_running)
     {
         events();
 
-        update();
-
-        render();
+        time = frame();
+        if (time > 0)
+        {
+            update();
+            render(time);
+        }
     }
 
     clean();
@@ -83,12 +84,12 @@ void Game::update()
 {
 }
 
-void Game::render()
+void Game::render(double time)
 {
     SDL_SetRenderDrawColor(m_window.renderer(), 96, 128, 255, 255);
     SDL_RenderClear(m_window.renderer());
 
-    m_render_system.render(m_window.renderer(), m_registry);
+    m_render_system.render(m_window.renderer(), m_registry, time);
 
     SDL_RenderPresent(m_window.renderer());
 }
@@ -97,4 +98,28 @@ void Game::clean()
 {
     IMG_Quit();
     SDL_Quit();
+}
+
+void Game::entt_init()
+{
+    const auto player = m_registry.create();
+
+    m_registry.emplace<Sprite>(player, "assets/player/idle.png", m_window.renderer(), PLAYER_WIDTH, PLAYER_HEIGHT, 6);
+    m_registry.emplace<Position>(player, 100, 100);
+}
+
+double Game::frame()
+{
+    m_frame_time.current_time = SDL_GetTicks();
+    if (m_frame_time.current_time > m_frame_time.last_time + m_frame_time.delay_time)
+    {
+        m_frame_time.time = m_frame_time.current_time - m_frame_time.last_time;
+        m_frame_time.last_time = m_frame_time.current_time;
+
+        return m_frame_time.time;
+    }
+    else
+    {
+        return 0;
+    }
 }

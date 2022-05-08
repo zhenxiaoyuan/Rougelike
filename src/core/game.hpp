@@ -8,6 +8,14 @@
 #include "Window.hpp"
 #include "../systems/RenderSystem.hpp"
 
+struct FrameTime
+{
+    const double delay_time = 1000.0 / 60.0;
+    double last_time = 0;
+    double current_time = 0;
+    double time = 0;
+};
+
 class Game
 {
 public:
@@ -22,8 +30,10 @@ private:
 
     void events();
     void update();
-    void render();
+    void render(double time);
     void clean();
+
+    double frame();
 
     Window m_window;
 
@@ -32,4 +42,6 @@ private:
     entt::registry m_registry;
 
     RenderSystem m_render_system;
+
+    FrameTime m_frame_time;
 };

@@ -9,6 +9,6 @@ public:
     RenderSystem() = default;
     ~RenderSystem() = default;
 
-    void render(SDL_Renderer *renderer, entt::registry& registry);
+    void render(SDL_Renderer *renderer, entt::registry& registry, double time);
 
 };
